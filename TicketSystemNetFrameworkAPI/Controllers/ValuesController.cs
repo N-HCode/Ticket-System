@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 
 namespace TicketSystemNetFrameworkAPI.Controllers
 {
@@ -13,7 +14,8 @@ namespace TicketSystemNetFrameworkAPI.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            string userID = RequestContext.Principal.Identity.GetUserId();
+            return new string[] { "value1", "value2", userID };
         }
 
         // GET api/values/5
