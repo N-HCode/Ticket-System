@@ -42,6 +42,39 @@ namespace TSDesktopUserInterface.ViewModels
             }
         }
 
+        private bool _isErrorVisible;
+
+        public bool IsErrorVisible
+        {
+            get 
+            {
+                bool output = false;
+
+                if(ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+
+                return output; 
+            }
+
+        }
+
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set 
+            {
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+            }
+        }
+
+
+
         //CanLogIn references the LogIn button name in the LoginView
         public bool CanLogIn
         {
@@ -59,9 +92,18 @@ namespace TSDesktopUserInterface.ViewModels
             }
         }
 
-        public async Task LogIn(string userName, string password)
+        public async Task LogIn()
         {
-            var result = await _apiHelper.Authenticate(UserName, Password);
+            try
+            {
+                ErrorMessage = "";
+                var result = await _apiHelper.Authenticate(UserName, Password);
+            }
+            catch (Exception ex)
+            {
+
+                ErrorMessage = ex.Message;
+            }
         }
 
 
