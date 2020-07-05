@@ -11,6 +11,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TSDatabase", "TSDatabase\TS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSDesktopUserInterface", "TSDesktopUserInterface\TSDesktopUserInterface.csproj", "{4BD690EE-67EF-48F1-915A-1BD8C639761C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketSystemNetFrameworkAPILibrary", "TicketSystemNetFrameworkAPILibrary\TicketSystemNetFrameworkAPILibrary.csproj", "{9CA4E279-9F8C-4EA7-BB75-C8FFDB0C340A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{4BD690EE-67EF-48F1-915A-1BD8C639761C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BD690EE-67EF-48F1-915A-1BD8C639761C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BD690EE-67EF-48F1-915A-1BD8C639761C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA4E279-9F8C-4EA7-BB75-C8FFDB0C340A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA4E279-9F8C-4EA7-BB75-C8FFDB0C340A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA4E279-9F8C-4EA7-BB75-C8FFDB0C340A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA4E279-9F8C-4EA7-BB75-C8FFDB0C340A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

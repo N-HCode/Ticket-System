@@ -14,8 +14,8 @@ namespace TicketSystemNetFrameworkAPI.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            string userID = RequestContext.Principal.Identity.GetUserId();
-            return new string[] { "value1", "value2", userID };
+            string userId = RequestContext.Principal.Identity.GetUserId();
+            return new string[] { "value1", "value2", userId };
         }
 
         // GET api/values/5
