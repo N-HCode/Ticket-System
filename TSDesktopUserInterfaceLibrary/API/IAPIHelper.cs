@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
-using TSDesktopUserInterface.Models;
+using TSDesktopUserInterfaceLibrary.Models;
 
-namespace TSDesktopUserInterface.Helpers
+namespace TSDesktopUserInterfaceLibray.API
 {
     public interface IAPIHelper
     {
         Task<AuthenticatedUser> Authenticate(string username, string password);
+
+        Task GetLoggedInUserInfo(string token);
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TSDesktopUserInterface.Helpers;
+using TSDesktopUserInterfaceLibray.API;
 
 namespace TSDesktopUserInterface.ViewModels
 {
@@ -98,6 +99,9 @@ namespace TSDesktopUserInterface.ViewModels
             {
                 ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(UserName, Password);
+
+                //Capture more information about the user
+                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
             }
             catch (Exception ex)
             {

@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using TSDesktopUserInterface.Helpers;
 using TSDesktopUserInterface.ViewModels;
+using TSDesktopUserInterfaceLibrary.Models;
+using TSDesktopUserInterfaceLibray.API;
 
 namespace TSDesktopUserInterface
 {
@@ -33,7 +35,8 @@ namespace TSDesktopUserInterface
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
-                .Singleton<IAPIHelper, APIHelper>();
+                .Singleton<IAPIHelper, APIHelper>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>();
 
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
