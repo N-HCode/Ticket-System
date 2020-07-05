@@ -43,7 +43,7 @@ namespace TSDesktopUserInterface.ViewModels
             set 
             {
                 _cart = value;
-                NotifyOfPropertyChange(() => Cart;
+                NotifyOfPropertyChange(() => Cart);
             }
         }
 
