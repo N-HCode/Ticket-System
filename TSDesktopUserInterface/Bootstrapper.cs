@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using TSDesktopUserInterface.Helpers;
 using TSDesktopUserInterface.ViewModels;
+using TSDesktopUserInterfaceLibrary.API;
 using TSDesktopUserInterfaceLibrary.Models;
 using TSDesktopUserInterfaceLibray.API;
 
@@ -30,7 +31,9 @@ namespace TSDesktopUserInterface
 
         protected override void Configure()
         {
-            _container.Instance(_container);
+            //when we ask for container, it gives itself
+            _container.Instance(_container)
+                .PerRequest<IProductEndpoint, ProductEndpoint>();
 
             _container
                 .Singleton<IWindowManager, WindowManager>()

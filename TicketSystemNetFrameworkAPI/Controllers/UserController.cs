@@ -14,15 +14,6 @@ namespace TicketSystemNetFrameworkAPI.Controllers
     public class UserController : ApiController
     {
 
-/*        public string Get(int id)
-        {
-            return "value";
-        }*/
-
-
-        //API uses display model that an change.
-        //Library uses data models which should not change.
-
         [HttpGet]
         public UserModel GetById()
         {

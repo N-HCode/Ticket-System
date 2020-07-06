@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using TSDesktopUserInterfaceLibrary.Models;
 
 namespace TSDesktopUserInterfaceLibray.API
@@ -8,5 +9,7 @@ namespace TSDesktopUserInterfaceLibray.API
         Task<AuthenticatedUser> Authenticate(string username, string password);
 
         Task GetLoggedInUserInfo(string token);
+
+        HttpClient ApiClient { get; }
     }
 }

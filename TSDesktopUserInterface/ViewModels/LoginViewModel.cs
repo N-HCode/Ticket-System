@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TSDesktopUserInterface.EventModels;
 using TSDesktopUserInterface.Helpers;
 using TSDesktopUserInterfaceLibray.API;
 
@@ -14,10 +15,12 @@ namespace TSDesktopUserInterface.ViewModels
         private string _userName;
         private string _password;
         private IAPIHelper _apiHelper;
+        private IEventAggregator _events;
 
-        public LoginViewModel(IAPIHelper apiHelper)
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
 
         public string UserName
@@ -102,6 +105,11 @@ namespace TSDesktopUserInterface.ViewModels
 
                 //Capture more information about the user
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+                //Pusblish anything (in this case a class) and see if anyone is looking
+                //for that published item. Using a class will differiate it from other
+                //calls making it obvious which event is happening.
+                _events.PublishOnUIThread(new LogOnEvent());
             }
             catch (Exception ex)
             {

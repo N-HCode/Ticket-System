@@ -5,14 +5,36 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TSDesktopUserInterfaceLibrary.API;
+using TSDesktopUserInterfaceLibrary.Models;
 
 namespace TSDesktopUserInterface.ViewModels
 {
-    class SalesViewModel : Screen
+    public class SalesViewModel : Screen
     {
-        private BindingList<string> _products;
+        private IProductEndpoint _productEndpoint;
 
-        public BindingList<string> Products
+        public SalesViewModel(IProductEndpoint productEndpoint)
+        {
+            _productEndpoint = productEndpoint;
+            
+        }
+
+        protected override async void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            await LoadProducts();
+        }
+
+        private async Task LoadProducts()
+        {
+            var productList = await _productEndpoint.GetAll();
+            Products = new BindingList<ProductModel>(productList);
+        }
+
+        private BindingList<ProductModel> _products;
+
+        public BindingList<ProductModel> Products
         {
             get { return _products; }
             set 
@@ -22,15 +44,17 @@ namespace TSDesktopUserInterface.ViewModels
             }
         }
 
-        private string _itemQuantity;
+        private int _itemQuantity;
 
-        public string ItemQuantity
+        //Caliburn.Mirco will validate whether the Text box has a valid int or not
+        //in the View page. Thus, we can put int instead of string for a TextBox
+        public int ItemQuantity
         {
             get { return _itemQuantity; }
             set 
             {
                 _itemQuantity = value;
-                NotifyOfPropertyChange(() => Products);
+                NotifyOfPropertyChange(() => ItemQuantity);
 
             }
         }
