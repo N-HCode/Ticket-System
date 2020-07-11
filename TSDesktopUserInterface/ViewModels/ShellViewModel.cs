@@ -13,21 +13,22 @@ namespace TSDesktopUserInterface.ViewModels
         
         private IEventAggregator _events;
         private SalesViewModel _salesVM;
-        private SimpleContainer _container;
+      
 
         public ShellViewModel( IEventAggregator events,
-            SalesViewModel salesView, SimpleContainer container)
+            SalesViewModel salesView)
         {
             _events = events;
             _salesVM = salesView;
-            _container = container;
+        
             
             //This is needed to be added to know that this listen for events
             _events.Subscribe(this);
 
             //Every time a LoginViewModel is requested a new one is create.
             //This make sure that no information is stored for the login screnen.
-            ActivateItem(_container.GetInstance<LoginViewModel>());
+            //IoC is from caliburn micro that let us talk to an instance.
+            ActivateItem(IoC.Get<LoginViewModel>());
 
 
         }
