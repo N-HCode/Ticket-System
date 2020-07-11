@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using TSDesktopUserInterface.Helpers;
 using TSDesktopUserInterface.ViewModels;
 using TSDesktopUserInterfaceLibrary.API;
+using TSDesktopUserInterfaceLibrary.Helpers;
 using TSDesktopUserInterfaceLibrary.Models;
 using TSDesktopUserInterfaceLibray.API;
 
@@ -39,6 +40,7 @@ namespace TSDesktopUserInterface
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<IAPIHelper, APIHelper>()
+                .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>();
 
             GetType().Assembly.GetTypes()
