@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TSDesktopUserInterface.EventModels;
+using TSDesktopUserInterfaceLibrary.Models;
 
 namespace TSDesktopUserInterface.ViewModels
 {
@@ -13,14 +14,16 @@ namespace TSDesktopUserInterface.ViewModels
         
         private IEventAggregator _events;
         private SalesViewModel _salesVM;
-      
+        private ILoggedInUserModel _user;
+
+
 
         public ShellViewModel( IEventAggregator events,
-            SalesViewModel salesView)
+            SalesViewModel salesView, ILoggedInUserModel user)
         {
             _events = events;
             _salesVM = salesView;
-        
+            _user = user;
             
             //This is needed to be added to know that this listen for events
             _events.Subscribe(this);
@@ -33,11 +36,39 @@ namespace TSDesktopUserInterface.ViewModels
 
         }
 
+        public bool IsLoggedIn
+        {
+            get
+            {
+                bool output = false;
+
+                if (string.IsNullOrWhiteSpace(_user.Token) == false)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+
+        }
+
+        public void ExitApplication()
+        {
+            TryClose();
+        }
+
+        public void LogOut()
+        {
+            _user.LogOffUser();
+            ActivateItem(IoC.Get<LoginViewModel>());
+            NotifyOfPropertyChange(() => IsLoggedIn);
+        }
+
         //This handles the event after it is subscribed.
         public void Handle(LogOnEvent message)
         {
             ActivateItem(_salesVM);
-
+            NotifyOfPropertyChange(() => IsLoggedIn);
         }
     }
 }
