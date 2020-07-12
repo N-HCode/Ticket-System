@@ -12,8 +12,8 @@ namespace TSDesktopUserInterface.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string _userName;
-        private string _password;
+        private string _userName = "Test@Test.TestTest";
+        private string _password = "Test1234$$";
         private IAPIHelper _apiHelper;
         private IEventAggregator _events;
 

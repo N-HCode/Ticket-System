@@ -9,9 +9,10 @@ using TicketSystemNetFrameworkAPILibrary.Models;
 
 namespace TicketSystemNetFrameworkAPI.Controllers
 {
+    [Authorize]
     public class ProductController : ApiController
     {   
-        [Authorize]
+        
         public List<ProductModel> Get()
         {
             ProductData data = new ProductData();

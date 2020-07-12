@@ -20,5 +20,16 @@ namespace TicketSystemNetFrameworkAPILibrary.DataAccess
 
 
         }
+
+        public ProductModel GetProductById(int productId)
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+
+            var output = sql.LoadData<ProductModel, 
+                dynamic>("dbo.spProduct_GetById", new { Id = productId }, "TSDatabase")
+                .FirstOrDefault();
+
+            return output;
+        }
     }
 }
