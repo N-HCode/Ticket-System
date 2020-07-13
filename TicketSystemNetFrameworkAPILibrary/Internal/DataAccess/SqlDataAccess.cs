@@ -58,6 +58,8 @@ namespace TicketSystemNetFrameworkAPILibrary.Internal.DataAccess
             _connection = new SqlConnection(connectionString);
             _connection.Open();
             _transaction = _connection.BeginTransaction();
+
+            isClosed = false;
         }
 
         public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
@@ -74,17 +76,23 @@ namespace TicketSystemNetFrameworkAPILibrary.Internal.DataAccess
                    commandType: CommandType.StoredProcedure, transaction: _transaction);
         }
 
+        private bool isClosed = false;
+
         //apply changes to the database
         public void CommitTransaction()
         {
             _transaction?.Commit();
             _connection?.Close();
+
+            isClosed = true;
         }
         //Rollback all the changes
         public void RollbackTransaction()
         {
             _transaction?.Rollback();
             _connection?.Close();
+
+            isClosed = true;
         }
 
         //This will run after the end of the using statement even if we do not tell it 
@@ -93,7 +101,21 @@ namespace TicketSystemNetFrameworkAPILibrary.Internal.DataAccess
         //commitTransaction method. Remember the using statement is based on Dapper
         public void Dispose()
         {
-            CommitTransaction();
+            if (isClosed == false)
+            {
+                try
+                {
+                    CommitTransaction();
+                }
+                catch 
+                {
+
+                    // TODO - Log this issue;
+                }
+            }
+
+            _transaction = null;
+            _connection = null;
         }
     }
 }
