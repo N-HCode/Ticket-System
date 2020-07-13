@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TSDesktopUserInterface.EventModels;
 using TSDesktopUserInterfaceLibrary.Models;
+using TSDesktopUserInterfaceLibray.API;
 
 namespace TSDesktopUserInterface.ViewModels
 {
@@ -15,15 +16,18 @@ namespace TSDesktopUserInterface.ViewModels
         private IEventAggregator _events;
         private SalesViewModel _salesVM;
         private ILoggedInUserModel _user;
+        private IAPIHelper _apiHelper;
 
 
 
         public ShellViewModel( IEventAggregator events,
-            SalesViewModel salesView, ILoggedInUserModel user)
+            SalesViewModel salesView, ILoggedInUserModel user,
+            IAPIHelper apiHelper)
         {
             _events = events;
             _salesVM = salesView;
             _user = user;
+            _apiHelper = apiHelper;
             
             //This is needed to be added to know that this listen for events
             _events.Subscribe(this);
@@ -59,9 +63,11 @@ namespace TSDesktopUserInterface.ViewModels
 
         public void LogOut()
         {
-            _user.LogOffUser();
+            _user.ResetUserModel();
+            _apiHelper.LogOffUser();
             ActivateItem(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
+            
         }
 
         //This handles the event after it is subscribed.
