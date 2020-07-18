@@ -9,7 +9,7 @@ using TicketSystemNetFrameworkAPILibrary.Models;
 
 namespace TicketSystemNetFrameworkAPI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Cashier")]
     public class ProductController : ApiController
     {   
         

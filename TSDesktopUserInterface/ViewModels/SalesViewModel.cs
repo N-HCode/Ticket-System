@@ -3,9 +3,11 @@ using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TSDesktopUserInterface.Models;
 using TSDesktopUserInterfaceLibrary.API;
 using TSDesktopUserInterfaceLibrary.Helpers;
@@ -19,23 +21,64 @@ namespace TSDesktopUserInterface.ViewModels
         private IConfigHelper _configHelper;
         private ISaleEndpoint _saleEndpoint;
         private IMapper _mapper;
+        private readonly StatusInfoViewModel _status;
+        private readonly IWindowManager _window;
 
         public SalesViewModel(IProductEndpoint productEndpoint,
             IConfigHelper configHelper, ISaleEndpoint saleEndpoint,
-            IMapper mapper)
+            IMapper mapper, StatusInfoViewModel status, IWindowManager window)
         {
             _productEndpoint = productEndpoint;
             _configHelper = configHelper;
             _saleEndpoint = saleEndpoint;
             _mapper = mapper;
-
-
+            _status = status;
+            _window = window;
         }
 
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            await LoadProducts();
+            try
+            {
+                await LoadProducts();
+            }
+            catch (Exception ex)
+            {
+                //setting for the windows dialog
+                dynamic settings = new ExpandoObject();
+                //No intellisense for this option.
+                settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "System Error";
+
+                //Can use the code below to get new instances of the status viewmodel instead of
+                //Just using one instance from the constructor. Will allow for multiple copies.
+                ////var info = IoC.Get<StatusInfoViewModel>();
+
+
+                //Show dialog message
+                if (ex.Message == "Unauthorized")
+                {
+                    _status.UpdateMessage("Unauthorized Access",
+                        "You do not have permission to interact with the Sales Form");
+                    _window.ShowDialog(_status, null, settings);
+
+
+                }
+                else
+                {
+                    _status.UpdateMessage("Fatal Exception",
+                        ex.Message);
+                    _window.ShowDialog(_status, null, settings);
+                }
+
+
+                //Close the current sale forms so client would not see it.
+                TryClose();
+
+
+            }
         }
 
         private async Task ResetSalesViewModel()
