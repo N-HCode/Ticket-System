@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,13 +16,18 @@ namespace TicketSystemNetFrameworkAPILibrary.Internal.DataAccess
 {
     internal class SqlDataAccess : IDisposable
     {
+
+        public SqlDataAccess(IConfiguration config)
+        {
+            _config = config;
+        }
         public string GetConnectionString(string name)
         {
             //look in the system configuration for a ConnectionString with a matching name
             //and then return that connection string.
             //Since this is a library there is no config file. It has to be ran through a web or program
             //This will use the web config for the API
-            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+            return _config.GetConnectionString(name);
         }
 
         public List<T> LoadData<T, U>(string storedProcedure, U parameters, string connectionStringName)
@@ -77,6 +83,7 @@ namespace TicketSystemNetFrameworkAPILibrary.Internal.DataAccess
         }
 
         private bool isClosed = false;
+        private readonly IConfiguration _config;
 
         //apply changes to the database
         public void CommitTransaction()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TicketSystemNetFrameworkAPILibrary.DataAccess;
 using TicketSystemNetFrameworkAPILibrary.Models;
 
@@ -16,10 +17,17 @@ namespace TicketSystemDotNetCoreAPI.Controllers
     [Authorize]
     public class SaleController : ControllerBase
     {
+        private readonly IConfiguration _config;
+
+        public SaleController(IConfiguration config)
+        {
+            _config = config;
+        }
+
         [Authorize(Roles = "Cashier")]
         public void Post(SaleModel sale)
         {
-            SaleData data = new SaleData();
+            SaleData data = new SaleData(_config);
             //.NET version: string userId = RequestContext.Principal.Identity.GetUserId();
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -38,7 +46,7 @@ namespace TicketSystemDotNetCoreAPI.Controllers
             //{
             //    // Do Manager stuff
             //}
-            SaleData data = new SaleData();
+            SaleData data = new SaleData(_config);
             return data.GetSaleReport();
         }
 

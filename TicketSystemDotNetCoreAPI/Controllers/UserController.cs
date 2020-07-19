@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using TicketSystemDotNetCoreAPI.Data;
 using TicketSystemDotNetCoreAPI.Models;
 using TicketSystemNetFrameworkAPILibrary.DataAccess;
@@ -22,13 +23,16 @@ namespace TicketSystemDotNetCoreAPI.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _config;
 
         //.CORE appears to have built-in dependcy injections
         public UserController(ApplicationDbContext context
-            , UserManager<IdentityUser> userManager)
+            , UserManager<IdentityUser> userManager
+            , IConfiguration config)
         {
             _context = context;
             _userManager = userManager;
+            _config = config;
         }
 
         [HttpGet]
@@ -36,7 +40,7 @@ namespace TicketSystemDotNetCoreAPI.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            UserData data = new UserData();
+            UserData data = new UserData(_config);
 
             return data.GetUserById(userId).First();
 

@@ -25,6 +25,7 @@ namespace TicketSystemDotNetCoreAPI
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // This appears to be the built in dependcy injection
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
