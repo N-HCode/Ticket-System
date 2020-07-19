@@ -23,7 +23,10 @@ namespace TicketSystemDotNetCoreAPI.Controllers
             _config = config;
         }
 
+       
         [Authorize(Roles = "Admin,Manager")]
+        //.CORE requires Http method to be expicitly defined
+        [HttpGet]
         public List<InventoryModel> Get()
         {
             InventoryData data = new InventoryData(_config);
@@ -31,6 +34,7 @@ namespace TicketSystemDotNetCoreAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpPost]
         public void Post(InventoryModel item)
         {
             InventoryData data = new InventoryData(_config);
