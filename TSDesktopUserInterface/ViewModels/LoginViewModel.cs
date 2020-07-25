@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TSDesktopUserInterface.EventModels;
 using TSDesktopUserInterface.Helpers;
@@ -109,7 +110,7 @@ namespace TSDesktopUserInterface.ViewModels
                 //Pusblish anything (in this case a class) and see if anyone is looking
                 //for that published item. Using a class will differiate it from other
                 //calls making it obvious which event is happening.
-                _events.PublishOnUIThread(new LogOnEvent());
+                await _events.PublishOnUIThreadAsync(new LogOnEvent(), new CancellationToken());
             }
             catch (Exception ex)
             {

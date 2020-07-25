@@ -27,7 +27,7 @@ namespace TSDesktopUserInterface.ViewModels
 
         public void Close()
         {
-            TryClose();
+            TryCloseAsync();
         }
 
     }

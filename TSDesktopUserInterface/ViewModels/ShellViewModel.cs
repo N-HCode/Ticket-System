@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TSDesktopUserInterface.EventModels;
 using TSDesktopUserInterfaceLibrary.Models;
@@ -30,12 +31,12 @@ namespace TSDesktopUserInterface.ViewModels
             _apiHelper = apiHelper;
             
             //This is needed to be added to know that this listen for events
-            _events.Subscribe(this);
+            _events.SubscribeOnPublishedThread(this);
 
             //Every time a LoginViewModel is requested a new one is create.
             //This make sure that no information is stored for the login screnen.
             //IoC is from caliburn micro that let us talk to an instance.
-            ActivateItem(IoC.Get<LoginViewModel>());
+            ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
 
 
         }
@@ -58,27 +59,34 @@ namespace TSDesktopUserInterface.ViewModels
 
         public void ExitApplication()
         {
-            TryClose();
+            TryCloseAsync();
         }
 
-        public void UserManagement()
+        public async Task UserManagement()
         {
-            ActivateItem(IoC.Get<UserDisplayViewModel>());
+            await ActivateItemAsync(IoC.Get<UserDisplayViewModel>(), new CancellationToken());
         }
 
-        public void LogOut()
+        public async Task LogOut()
         {
             _user.ResetUserModel();
             _apiHelper.LogOffUser();
-            ActivateItem(IoC.Get<LoginViewModel>());
+            await ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
             NotifyOfPropertyChange(() => IsLoggedIn);
             
         }
 
-        //This handles the event after it is subscribed.
-        public void Handle(LogOnEvent message)
+        ////This handles the event after it is subscribed.
+        //public void Handle(LogOnEvent message)
+        //{
+        //    ActivateItem(_salesVM);
+        //    NotifyOfPropertyChange(() => IsLoggedIn);
+        //}
+
+        public async Task HandleAsync(LogOnEvent message, CancellationToken cancellationToken)
         {
-            ActivateItem(_salesVM);
+
+            await ActivateItemAsync(_salesVM, cancellationToken);
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
     }

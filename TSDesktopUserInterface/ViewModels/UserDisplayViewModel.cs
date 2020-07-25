@@ -152,7 +152,7 @@ namespace TSDesktopUserInterface.ViewModels
                 {
                     _status.UpdateMessage("Unauthorized Access",
                         "You do not have permission to interact with the Sales Form");
-                    _window.ShowDialog(_status, null, settings);
+                    await _window.ShowDialogAsync(_status, null, settings);
 
 
                 }
@@ -160,12 +160,12 @@ namespace TSDesktopUserInterface.ViewModels
                 {
                     _status.UpdateMessage("Fatal Exception",
                         ex.Message);
-                    _window.ShowDialog(_status, null, settings);
+                   await _window.ShowDialogAsync(_status, null, settings);
                 }
 
 
                 //Close the current sale forms so client would not see it.
-                TryClose();
+                TryCloseAsync();
 
 
             }
