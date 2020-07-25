@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using TicketSystemNetFrameworkAPILibrary.DataAccess;
 using TicketSystemNetFrameworkAPILibrary.Models;
 
+//This adds the standards status code conventions like 404 etc.
+//This will help with swagger documentation.
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
+
 namespace TicketSystemDotNetCoreAPI.Controllers
 {
     [Route("api/[controller]")]

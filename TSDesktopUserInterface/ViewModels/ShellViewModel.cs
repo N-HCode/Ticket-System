@@ -15,18 +15,16 @@ namespace TSDesktopUserInterface.ViewModels
     {
         
         private IEventAggregator _events;
-        private SalesViewModel _salesVM;
         private ILoggedInUserModel _user;
         private IAPIHelper _apiHelper;
 
 
 
         public ShellViewModel( IEventAggregator events,
-            SalesViewModel salesView, ILoggedInUserModel user,
+            ILoggedInUserModel user,
             IAPIHelper apiHelper)
         {
             _events = events;
-            _salesVM = salesView;
             _user = user;
             _apiHelper = apiHelper;
             
@@ -76,17 +74,13 @@ namespace TSDesktopUserInterface.ViewModels
             
         }
 
-        ////This handles the event after it is subscribed.
-        //public void Handle(LogOnEvent message)
-        //{
-        //    ActivateItem(_salesVM);
-        //    NotifyOfPropertyChange(() => IsLoggedIn);
-        //}
 
         public async Task HandleAsync(LogOnEvent message, CancellationToken cancellationToken)
         {
-
-            await ActivateItemAsync(_salesVM, cancellationToken);
+            //Using IoC will get us a new instace of the SalesViewModel everytime
+            //This will make sure all the data will be removed when logging out
+            //and coming back into the View.
+            await ActivateItemAsync(IoC.Get<SalesViewModel>(), cancellationToken);
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
     }
